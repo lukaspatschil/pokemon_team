@@ -8,7 +8,7 @@ import { PrismaService } from 'src/prisma.service';
 export class PokemonService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: NewPokemonInput): Promise<Pokemon | null> {
+  async create(data: NewPokemonInput): Promise<Pokemon> {
     return this.prisma.pokemon.create({
       data: {
         name: data.name,
@@ -27,11 +27,19 @@ export class PokemonService {
     });
   }
 
-  async findAll(pokemonArgs: PokemonArgs): Promise<Pokemon[] | null> {
-    return this.prisma.pokemon.findMany();
+  async findAll(pokemonArgs: PokemonArgs): Promise<Pokemon[]> {
+    return this.prisma.pokemon.findMany({
+      skip: pokemonArgs.skip,
+      take: pokemonArgs.take,
+    });
   }
 
-  async remove(id: string): Promise<boolean> {
-    return true;
-  }
+  //! Wieso geht das nicht?
+  // async remove(id: number): Promise<Pokemon> {
+  //   return this.prisma.pokemon.delete({
+  //     where: {
+  //       id: id,
+  //     },
+  //   });
+  // }
 }

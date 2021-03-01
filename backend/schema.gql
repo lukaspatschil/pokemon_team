@@ -20,7 +20,6 @@ type Query {
 
 type Mutation {
   addPokemon(newPokemonData: NewPokemonInput!): Pokemon!
-  removePokemon(id: String!): Boolean!
 }
 
 input NewPokemonInput {

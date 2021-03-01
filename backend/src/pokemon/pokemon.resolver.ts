@@ -35,10 +35,11 @@ export class PokemonResolver {
     return pokemon;
   }
 
-  @Mutation((returns) => Boolean)
-  async removePokemon(@Args('id') id: string) {
-    return this.pokemonService.remove(id);
-  }
+  //! :(
+  // @Mutation((returns) => Pokemon)
+  // async removePokemon(@Args('id') id: number) {
+  //   return this.pokemonService.remove(id);
+  // }
 
   @Subscription((returns) => Pokemon)
   pokemonAdded() {
