@@ -13,13 +13,24 @@ type Pokemon {
 """Date custom scalar type"""
 scalar Date
 
+type User {
+  id: ID!
+  email: String!
+  firstname: String
+  lastname: String
+  creationDate: Date!
+}
+
 type Query {
   pokemon(id: Float!): Pokemon!
   pokemons(skip: Int = 0, take: Int = 25): [Pokemon!]!
+  user(id: Float!): User!
+  users(skip: Int = 0, take: Int = 25): [User!]!
 }
 
 type Mutation {
   addPokemon(newPokemonData: NewPokemonInput!): Pokemon!
+  addUser(newUserData: NewUserInput!): User!
 }
 
 input NewPokemonInput {
@@ -28,6 +39,13 @@ input NewPokemonInput {
   description: String
 }
 
+input NewUserInput {
+  email: String!
+  firstname: String
+  lastname: String
+}
+
 type Subscription {
   pokemonAdded: Pokemon!
+  userAdded: User!
 }

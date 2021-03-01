@@ -11,10 +11,12 @@ generator client {
 }
 
 model User {
-  id    Int       @id @default(autoincrement())
-  email String    @unique
-  name  String?
-  posts Pokemon[]
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  firstname    String?
+  lastname     String?
+  creationDate DateTime
+  pokemon      Pokemon[]
 }
 
 model Pokemon {

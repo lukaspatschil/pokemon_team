@@ -11,26 +11,23 @@ export class PokemonService {
   async create(data: NewPokemonInput): Promise<Pokemon> {
     return this.prisma.pokemon.create({
       data: {
-        name: data.name,
-        description: data.description,
-        picture: data.picture,
+        ...data,
         creationDate: new Date(),
       },
     });
   }
 
-  async findOneById(pokemonId: number): Promise<Pokemon | null> {
+  async findOneById(id: number): Promise<Pokemon | null> {
     return this.prisma.pokemon.findUnique({
       where: {
-        id: pokemonId,
+        id,
       },
     });
   }
 
   async findAll(pokemonArgs: PokemonArgs): Promise<Pokemon[]> {
     return this.prisma.pokemon.findMany({
-      skip: pokemonArgs.skip,
-      take: pokemonArgs.take,
+      ...pokemonArgs,
     });
   }
 
@@ -38,7 +35,7 @@ export class PokemonService {
   // async remove(id: number): Promise<Pokemon> {
   //   return this.prisma.pokemon.delete({
   //     where: {
-  //       id: id,
+  //       id,
   //     },
   //   });
   // }
