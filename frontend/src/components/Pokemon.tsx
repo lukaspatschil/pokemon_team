@@ -2,13 +2,13 @@ interface Props {
   name: string;
   picture: string;
   id: number
-  addPokemon?: (name: string, id: number) => void;
+  onClick?: (name: string, id: number) => void;
 }
 
-const Pokemon = ({ name, picture, id, addPokemon }: Props) => {
+const Pokemon = ({ name, picture, id, onClick }: Props) => {
   const handleClick = () => {
-    if (addPokemon) {
-      addPokemon(name, id);
+    if (onClick) {
+      onClick(name, id);
     }
   }
   return (
