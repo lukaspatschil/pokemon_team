@@ -25,7 +25,6 @@ export const useFetch = (url: string) => {
     setState((state) => ({ data: state.data, loading: true }));
     if (!id.loading) {
       id.ids?.forEach((el) => {
-        console.log(el.name);
         fetch(el.url)
           .then((x) => x.json())
           .then((y) => {
