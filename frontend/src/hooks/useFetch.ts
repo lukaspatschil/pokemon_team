@@ -13,7 +13,7 @@ export const useFetch = (url: string) => {
   });
 
   useEffect(() => {
-    setId((state) => ({ ids: id.ids, loading: true }));
+    setId((state) => ({ ids: state.ids, loading: true }));
     fetch(url)
       .then((x) => x.json())
       .then((y) => {

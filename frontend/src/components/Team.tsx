@@ -26,7 +26,7 @@ const Team = () => {
       <h2>Your Team:</h2>
       <div className="flex">
         {
-          Array.isArray(pokemons.data) && pokemons.data.map((pokemon, id) => <Pokemon key={id} name={pokemon.name} picture={pokemon.sprites.front_default} />)
+          Array.isArray(pokemons.data) && pokemons.data.map((pokemon, id) => <Pokemon key={id} name={pokemon.name} id={pokemon.id} picture={pokemon.sprites.front_default} />)
         }
       </div>
     </section>

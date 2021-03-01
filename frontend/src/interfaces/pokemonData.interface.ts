@@ -11,6 +11,7 @@ export default interface PokemonData {
     front_shiny_female: string;
   };
   types: Type[];
+  id: number;
 }
 
 interface Type {
