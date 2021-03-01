@@ -2,13 +2,14 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
 import Pokemon from './Pokemon';
+import PokemonData from '../interfaces/pokemonData.interface';
 import { useFetch } from '../hooks/useFetch';
 
 const ADD_POKEMON = gql`
-  mutation AddPokemons($name:String!, $pokeapiUrl:String!) {
+  mutation AddPokemons($name:String!, $picture:String!) {
     addPokemon(newPokemonData:{
       name: $name,
-      pokeapiUrl: $pokeapiUrl
+      picture: $picture
     }){
       id
     }
@@ -25,13 +26,19 @@ const Selection = () => {
   useEffect(() => setFiltered(pokemons), [pokemons]);
 
   const addTeam = (name: string, id: number) => {
-    addPokemon({
-      variables: {
-        name: name,
-        pokeapiUrl: `https://pokeapi.co/api/v2/pokemon/${id}/`,
-      }
-    });
-    window.location.reload()
+    fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+      .then(data => data.json())
+      .then((pokemon: PokemonData) => {
+        console.log(pokemon);
+        addPokemon({
+          variables: {
+            name: pokemon.name,
+            picture: pokemon.sprites.front_default,
+          }
+        });
+        window.location.reload()
+      });
+
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

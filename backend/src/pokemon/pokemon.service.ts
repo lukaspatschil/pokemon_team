@@ -13,7 +13,7 @@ export class PokemonService {
       data: {
         name: data.name,
         description: data.description,
-        pokeapiUrl: data.pokeapiUrl,
+        picture: data.picture,
         creationDate: new Date(),
       },
     });

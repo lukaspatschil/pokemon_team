@@ -12,7 +12,7 @@ export class Pokemon {
   description?: string;
 
   @Field()
-  pokeapiUrl: string;
+  picture: string;
 
   @Field()
   creationDate: Date;

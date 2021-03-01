@@ -8,7 +8,7 @@ export class NewPokemonInput {
   name: string;
 
   @Field()
-  pokeapiUrl: string;
+  picture: string;
 
   @Field({ nullable: true })
   @IsOptional()
