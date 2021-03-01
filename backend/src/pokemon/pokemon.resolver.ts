@@ -13,7 +13,7 @@ export class PokemonResolver {
   constructor(private readonly pokemonService: PokemonService) {}
 
   @Query((returns) => Pokemon)
-  async pokemon(@Args('id') id: string): Promise<Pokemon> {
+  async pokemon(@Args('id') id: number): Promise<Pokemon> {
     const pokemon = await this.pokemonService.findOneById(id);
     if (!pokemon) {
       throw new NotFoundException(id);

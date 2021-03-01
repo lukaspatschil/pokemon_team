@@ -1,27 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { NewPokemonInput } from './dto/new-pokemon.input';
-import { Pokemon } from './models/pokemon.model';
+import { Pokemon } from '@prisma/client';
 import { PokemonArgs } from './dto/pokemon.args';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class PokemonService {
-  async create(data: NewPokemonInput): Promise<Pokemon> {
-    return {} as any;
+  constructor(private prisma: PrismaService) {}
+
+  async create(data: NewPokemonInput): Promise<Pokemon | null> {
+    return this.prisma.pokemon.create({
+      data: {
+        name: data.name,
+        description: data.description,
+        pokeapiId: data.pokeapiID,
+        creationDate: new Date(),
+      },
+    });
   }
 
-  async findOneById(id: string): Promise<Pokemon> {
-    return {} as any;
+  async findOneById(pokemonId: number): Promise<Pokemon | null> {
+    return this.prisma.pokemon.findUnique({
+      where: {
+        id: pokemonId,
+      },
+    });
   }
 
-  async findAll(pokemonArgs: PokemonArgs): Promise<Pokemon[]> {
-    const glurak: Pokemon = {
-      id: 'glurak1',
-      name: 'Glurak',
-      description: 'This is a glurak',
-      creationDate: new Date(),
-    };
-
-    return [glurak] as Pokemon[];
+  async findAll(pokemonArgs: PokemonArgs): Promise<Pokemon[] | null> {
+    return this.prisma.pokemon.findMany();
   }
 
   async remove(id: string): Promise<boolean> {

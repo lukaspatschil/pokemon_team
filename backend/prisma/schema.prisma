@@ -18,9 +18,11 @@ model User {
 }
 
 model Pokemon {
-  id          Int     @id @default(autoincrement())
-  name        String
-  description String?
-  owner       User?   @relation(fields: [ownerId], references: [id])
-  ownerId     Int?
+  id           Int      @id @default(autoincrement())
+  name         String
+  description  String?
+  pokeapiId    Int
+  creationDate DateTime
+  owner        User?    @relation(fields: [ownerId], references: [id])
+  ownerId      Int?
 }

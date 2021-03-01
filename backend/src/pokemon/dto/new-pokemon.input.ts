@@ -7,6 +7,9 @@ export class NewPokemonInput {
   @MaxLength(30)
   name: string;
 
+  @Field()
+  pokeapiID: number;
+
   @Field({ nullable: true })
   @IsOptional()
   @Length(30, 255)

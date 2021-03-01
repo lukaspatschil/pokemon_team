@@ -6,6 +6,7 @@ type Pokemon {
   id: ID!
   name: String!
   description: String
+  pokeapiId: Float!
   creationDate: Date!
 }
 
@@ -13,7 +14,7 @@ type Pokemon {
 scalar Date
 
 type Query {
-  pokemon(id: String!): Pokemon!
+  pokemon(id: Float!): Pokemon!
   pokemons(skip: Int = 0, take: Int = 25): [Pokemon!]!
 }
 
@@ -24,6 +25,7 @@ type Mutation {
 
 input NewPokemonInput {
   name: String!
+  pokeapiID: Float!
   description: String
 }
 
