@@ -12,7 +12,7 @@ export class Pokemon {
   description?: string;
 
   @Field()
-  pokeapiId: number;
+  pokeapiUrl: string;
 
   @Field()
   creationDate: Date;

@@ -6,7 +6,7 @@ type Pokemon {
   id: ID!
   name: String!
   description: String
-  pokeapiId: Float!
+  pokeapiUrl: String!
   creationDate: Date!
 }
 
@@ -25,7 +25,7 @@ type Mutation {
 
 input NewPokemonInput {
   name: String!
-  pokeapiID: Float!
+  pokeapiUrl: String!
   description: String
 }
 
