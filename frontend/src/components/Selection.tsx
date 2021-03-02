@@ -3,7 +3,12 @@ import { gql, useMutation } from '@apollo/client';
 
 import Pokemon from './Pokemon';
 import PokemonData from '../interfaces/pokemonData.interface';
+import { PokemonGraph } from '../interfaces/pokemon.interface';
 import { useFetch } from '../hooks/useFetch';
+
+interface Props {
+  localPokemon: (pokemon: PokemonGraph) => void;
+}
 
 const ADD_POKEMON = gql`
   mutation AddPokemons($name:String!, $picture:String!) {
@@ -11,32 +16,37 @@ const ADD_POKEMON = gql`
       name: $name,
       picture: $picture
     }){
-      id
+      id,
+      name,
+      picture
     }
   }
 `;
 
-const Selection = () => {
+const Selection = ({ localPokemon }: Props) => {
   const pokemons = useFetch("https://pokeapi.co/api/v2/pokemon?limit=151");
-  const [addPokemon] = useMutation(ADD_POKEMON);
+  const [addPokemon, { data }] = useMutation(ADD_POKEMON);
 
   const [filtered, setFiltered] = useState(pokemons);
   const [input, setInput] = useState('');
 
   useEffect(() => setFiltered(pokemons), [pokemons]);
 
+  useEffect(() => {
+    console.log(data);
+    if (data) localPokemon(data?.addPokemon)
+  }, [data]);
+
   const addTeam = (name: string, id: number) => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
       .then(data => data.json())
       .then((pokemon: PokemonData) => {
-        console.log(pokemon);
         addPokemon({
           variables: {
             name: pokemon.name,
             picture: pokemon.sprites.front_default,
           }
         });
-        window.location.reload()
       });
 
   }
