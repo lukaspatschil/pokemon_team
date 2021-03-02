@@ -49,8 +49,8 @@ const Selection = () => {
   return (
     <section className="container mx-auto">
       <h2 className="text-3xl font-bold">Select your pokemon:</h2>
-      <input type="text" onChange={handleChange} value={input} name="" id="" />
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-4 xl:grid-cols-6">
+      <input className="mt-4 mb-4 border" type="text" onChange={handleChange} value={input} name="" id="" />
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-4 xl:grid-cols-6">
         {
           !pokemons.loading && filtered?.data?.map((pokemon, id) => <Pokemon key={id} name={pokemon.name} id={pokemon.id} onClick={addTeam} picture={pokemon.sprites.front_default} />)
         }
