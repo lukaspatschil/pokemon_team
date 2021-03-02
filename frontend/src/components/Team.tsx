@@ -20,9 +20,9 @@ const Team = () => {
   if (error) return <section className="App container">Error :(</section>;
 
   return (
-    <section className="App container">
-      <h2>Your Team:</h2>
-      <div className="flex">
+    <section className="container mx-auto mt-10 mb-5 md:mb-10">
+      <h2 className="text-3xl font-bold">Your Team:</h2>
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-4 xl:grid-cols-6">
         {
           Array.isArray(data.pokemons) && data.pokemons.map((pokemon: PokemonGraph) => <Pokemon key={pokemon.id} name={pokemon.name} id={pokemon.id} picture={pokemon.picture} />)
         }

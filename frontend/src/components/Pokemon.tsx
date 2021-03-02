@@ -12,7 +12,7 @@ const Pokemon = ({ name, picture, id, onClick }: Props) => {
     }
   }
   return (
-    <div className="card" onClick={handleClick}>
+    <div className="bg-white py-8 px-10 text-center rounded-md shadow-lg max-w-xs mx-auto cursor-pointer" onClick={handleClick}>
       <img src={picture} alt={name} />
       <h2>{name}</h2>
     </div>

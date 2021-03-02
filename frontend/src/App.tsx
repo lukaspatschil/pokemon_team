@@ -1,5 +1,3 @@
-import './App.css';
-
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
 import React from 'react';
