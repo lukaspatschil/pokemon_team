@@ -1,6 +1,13 @@
+import {
+  Link,
+  Route,
+  BrowserRouter as Router,
+  Switch
+} from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 
+import Navbar from './components/Navbar';
 import { PokemonGraph } from './interfaces/pokemon.interface';
 import Selection from './components/Selection';
 import Team from './components/Team';
@@ -30,10 +37,21 @@ function App() {
   }
 
   return (
-    <>
-      <Team loading={loading} error={error} data={pokemons} />
-      <Selection localPokemon={addPokemon} />
-    </>
+    <Router>
+      <div>
+        <Navbar />
+
+        <Switch>
+          <Route path="/pokemons">
+            <Team loading={loading} error={error} data={pokemons} />
+            <Selection localPokemon={addPokemon} />
+          </Route>
+          <Route path="/">
+            <section>Home</section>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
