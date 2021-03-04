@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:12-alpine
+    env_file:
+      - .env
+    networks:
+      - backend
+    volumes:
+      - "./storage/db:/var/lib/postgresql/data"
+
+   pgadmin:
+    image: dpage/pgadmin4:latest
+    env_file:
+      - .env
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_PORT=8081
+    ports:
+      - 8081:8081
+    networks:
+      - backend
+    volumes:
+      - pgadmin:/pgadmin
+
+volumes:
+  postgres:
+    name: nest-db
