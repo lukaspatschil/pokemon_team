@@ -48,7 +48,6 @@ const Selection = ({ localPokemon }: Props) => {
           }
         });
       });
-
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

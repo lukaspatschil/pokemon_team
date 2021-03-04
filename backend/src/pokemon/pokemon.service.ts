@@ -31,12 +31,11 @@ export class PokemonService {
     });
   }
 
-  //! Wieso geht das nicht?
-  // async remove(id: number): Promise<Pokemon> {
-  //   return this.prisma.pokemon.delete({
-  //     where: {
-  //       id,
-  //     },
-  //   });
-  // }
+  async remove(id: number): Promise<Pokemon | null> {
+    return this.prisma.pokemon.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
