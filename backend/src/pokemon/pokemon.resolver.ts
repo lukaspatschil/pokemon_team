@@ -8,11 +8,11 @@ import { PokemonService } from './pokemon.service';
 
 const pubSub = new PubSub();
 
-@Resolver((of) => Pokemon)
+@Resolver(() => Pokemon)
 export class PokemonResolver {
   constructor(private readonly pokemonService: PokemonService) {}
 
-  @Query((returns) => Pokemon)
+  @Query(() => Pokemon)
   async pokemon(@Args('id') id: number): Promise<Pokemon> {
     const pokemon = await this.pokemonService.findOneById(id);
     if (!pokemon) {
@@ -21,12 +21,12 @@ export class PokemonResolver {
     return pokemon;
   }
 
-  @Query((returns) => [Pokemon])
+  @Query(() => [Pokemon])
   pokemons(@Args() pokemonArgs: PokemonArgs): Promise<Pokemon[]> {
     return this.pokemonService.findAll(pokemonArgs);
   }
 
-  @Mutation((returns) => Pokemon)
+  @Mutation(() => Pokemon)
   async addPokemon(
     @Args('newPokemonData') newPokemonData: NewPokemonInput,
   ): Promise<Pokemon> {
@@ -35,12 +35,12 @@ export class PokemonResolver {
     return pokemon;
   }
 
-  @Mutation((returns) => Pokemon, { nullable: true })
-  async removePokemon(@Args('id') id: number) {
+  @Mutation(() => Pokemon, { nullable: true })
+  async removePokemon(@Args('id') id: number): Promise<Pokemon | null> {
     return this.pokemonService.remove(id);
   }
 
-  @Subscription((returns) => Pokemon)
+  @Subscription(() => Pokemon)
   pokemonAdded() {
     return pubSub.asyncIterator('pokemonAdded');
   }

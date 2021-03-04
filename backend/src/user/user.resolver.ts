@@ -7,21 +7,21 @@ import { UserService } from './user.service';
 
 const pubSub = new PubSub();
 
-@Resolver((of) => User)
+@Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Query((returns) => User)
+  @Query(() => User)
   async user(@Args('id') id: number): Promise<User> {
     return this.userService.findOneById(id);
   }
 
-  @Query((returns) => [User])
+  @Query(() => [User])
   users(@Args() userArgs: UserArgs): Promise<User[]> {
     return this.userService.findAll(userArgs);
   }
 
-  @Mutation((returns) => User)
+  @Mutation(() => User)
   async addUser(@Args('newUserData') newUserData: NewUserInput): Promise<User> {
     const user = await this.userService.create(newUserData);
     pubSub.publish('userAdded', { userAdded: user });
@@ -34,7 +34,7 @@ export class UserResolver {
   //   return this.userService.remove(id);
   // }
 
-  @Subscription((returns) => User)
+  @Subscription(() => User)
   userAdded() {
     return pubSub.asyncIterator('userAdded');
   }

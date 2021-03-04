@@ -4,10 +4,11 @@ import { IsEmail } from 'class-validator';
 
 @ObjectType()
 export class User {
-  @Field((type) => ID)
+  @Field(() => ID)
   id: number;
 
   @Field()
+  @IsEmail()
   email: string;
 
   @Field({ nullable: true })
