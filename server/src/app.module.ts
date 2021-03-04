@@ -1,19 +1,23 @@
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Connection } from 'typeorm';
+import { DatabaseModule } from './database/database.sqlite.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { PokemonModule } from './pokemon/pokemon.module';
 import { join } from 'path';
-
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
+    DatabaseModule,
+    PokemonModule,
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private connection: Connection) {
+    connection.synchronize();
+  }
+}

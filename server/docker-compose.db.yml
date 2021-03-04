@@ -1,29 +1,17 @@
 version: '3.7'
-
 services:
   postgres:
-    image: postgres:12-alpine
-    env_file:
-      - .env
-    networks:
-      - backend
-    volumes:
-      - "./storage/db:/var/lib/postgresql/data"
-
-   pgadmin:
-    image: dpage/pgadmin4:latest
-    env_file:
-      - .env
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@example.com
-      - PGADMIN_DEFAULT_PASSWORD=admin
-      - PGADMIN_LISTEN_PORT=8081
+    image: postgres:13
+    container_name: postgres
+    restart: always
     ports:
-      - 8081:8081
-    networks:
-      - backend
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=pokemon
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
     volumes:
-      - pgadmin:/pgadmin
+      - postgres:/var/lib/postgresql/data
 
 volumes:
   postgres:
