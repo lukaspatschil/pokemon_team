@@ -15,13 +15,14 @@ mutation RemovePokemon($id:Int!) {
   removePokemon(id: $id) {
     id
     name
+    picture
   }
 }
 `;
 
 const Team = ({ loading, error, data }: Props) => {
   const [pokemons, setPokemons] = useState<PokemonGraph[]>(data ?? []);
-  const [removePokemon] = useMutation(REMOVE_POKEMON);
+  const [removePokemon] = useMutation<{ removePokemon: PokemonGraph }>(REMOVE_POKEMON);
 
   const removeTeam = (name: string, id: number) => {
     removePokemon({
@@ -29,7 +30,7 @@ const Team = ({ loading, error, data }: Props) => {
         id: Number(id),
       }
     })
-      .then(res => setPokemons(old => old.filter(pokemon => pokemon.id !== id)));
+      .then(() => setPokemons(old => old.filter(pokemon => pokemon.id !== id)));
   };
 
   useEffect(() => {

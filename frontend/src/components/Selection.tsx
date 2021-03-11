@@ -25,7 +25,7 @@ const ADD_POKEMON = gql`
 
 const Selection = ({ localPokemon }: Props) => {
   const pokemons = useFetch("https://pokeapi.co/api/v2/pokemon?limit=151");
-  const [addPokemon] = useMutation(ADD_POKEMON);
+  const [addPokemon] = useMutation<{ addPokemon: PokemonGraph }>(ADD_POKEMON);
 
   const [filtered, setFiltered] = useState(pokemons);
   const [input, setInput] = useState('');
@@ -42,7 +42,7 @@ const Selection = ({ localPokemon }: Props) => {
             picture: pokemon.sprites.front_default,
           }
         })
-          .then(res => localPokemon(res.data.addPokemon));
+          .then(res => res.data?.addPokemon ? localPokemon(res.data?.addPokemon) : '');
       });
   }
 
