@@ -33,7 +33,6 @@ const Selection = ({ localPokemon }: Props) => {
   useEffect(() => setFiltered(pokemons), [pokemons]);
 
   useEffect(() => {
-    console.log(data);
     if (data) localPokemon(data?.addPokemon)
   }, [data]);
 
