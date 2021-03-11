@@ -25,16 +25,12 @@ const ADD_POKEMON = gql`
 
 const Selection = ({ localPokemon }: Props) => {
   const pokemons = useFetch("https://pokeapi.co/api/v2/pokemon?limit=151");
-  const [addPokemon, { data }] = useMutation(ADD_POKEMON);
+  const [addPokemon] = useMutation(ADD_POKEMON);
 
   const [filtered, setFiltered] = useState(pokemons);
   const [input, setInput] = useState('');
 
   useEffect(() => setFiltered(pokemons), [pokemons]);
-
-  useEffect(() => {
-    if (data) localPokemon(data?.addPokemon)
-  }, [data]);
 
   const addTeam = (name: string, id: number) => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
@@ -45,7 +41,8 @@ const Selection = ({ localPokemon }: Props) => {
             name: pokemon.name,
             picture: pokemon.sprites.front_default,
           }
-        });
+        })
+          .then(res => localPokemon(res.data.addPokemon));
       });
   }
 

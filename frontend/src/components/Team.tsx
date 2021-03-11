@@ -28,8 +28,8 @@ const Team = ({ loading, error, data }: Props) => {
       variables: {
         id: Number(id),
       }
-    });
-    setPokemons(old => old.filter(pokemon => pokemon.id !== id));
+    })
+      .then(res => setPokemons(old => old.filter(pokemon => pokemon.id !== id)));
   };
 
   useEffect(() => {

@@ -28,7 +28,6 @@ function App() {
   useEffect(() => setPokemons(data?.pokemons), [data?.pokemons]);
 
   const addPokemon = (pokemon: PokemonGraph) => {
-    console.log(data);
     if (pokemons) {
       setPokemons(pre => {
         if (pre) return [...pre, pokemon];
