@@ -5,6 +5,7 @@ import {
   Switch
 } from "react-router-dom";
 import { gql, useQuery } from '@apollo/client';
+import toast, { Toaster } from 'react-hot-toast';
 
 import Home from './components/Home';
 import Navbar from './components/Navbar';
@@ -30,6 +31,7 @@ function App() {
   const addPokemon = (pokemon: PokemonGraph) => {
     if (pokemons) {
       setPokemons(pre => {
+        toast.success('Successfully added Pokemon to the team!');
         if (pre) return [...pre, pokemon];
       });
     }
@@ -38,6 +40,7 @@ function App() {
   const removePokemon = (id: number) => {
     if (pokemons) {
       setPokemons(pre => {
+        toast.success('Successfully removed Pokemon from the team!')
         if (pre) return pre?.filter(pokemon => pokemon.id !== id)
       })
     }
@@ -50,6 +53,7 @@ function App() {
 
         <Switch>
           <Route path="/pokemons">
+            <Toaster />
             <Team loading={loading} error={error} data={pokemons} deletePokemon={removePokemon} />
             <Selection localPokemon={addPokemon} />
           </Route>
