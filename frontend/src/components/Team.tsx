@@ -1,13 +1,14 @@
 import { ApolloError, gql, useMutation } from '@apollo/client';
-import React, { useEffect, useState } from 'react';
 
 import Pokemon from './Pokemon';
 import { PokemonGraph } from '../interfaces/pokemon.interface';
+import React from 'react';
 
 interface Props {
   loading: boolean;
-  error: ApolloError | undefined
+  error: ApolloError | undefined;
   data: PokemonGraph[] | undefined;
+  deletePokemon: (id: number) => void;
 }
 
 const REMOVE_POKEMON = gql`
@@ -20,8 +21,7 @@ mutation RemovePokemon($id:Int!) {
 }
 `;
 
-const Team = ({ loading, error, data }: Props) => {
-  const [pokemons, setPokemons] = useState<PokemonGraph[]>(data ?? []);
+const Team = ({ loading, error, data, deletePokemon }: Props) => {
   const [removePokemon] = useMutation<{ removePokemon: PokemonGraph }>(REMOVE_POKEMON);
 
   const removeTeam = (name: string, id: number) => {
@@ -30,12 +30,8 @@ const Team = ({ loading, error, data }: Props) => {
         id: Number(id),
       }
     })
-      .then(() => setPokemons(old => old.filter(pokemon => pokemon.id !== id)));
+      .then(() => deletePokemon(id));
   };
-
-  useEffect(() => {
-    setPokemons(data ?? []);
-  }, [data]);
 
   if (loading) return <section className="container mx-auto mt-10 mb-5 md:mb-10">Loading...</section>;
   if (error) return <section className="container mx-auto mt-10 mb-5 md:mb-10">Error :(</section>;
@@ -45,7 +41,7 @@ const Team = ({ loading, error, data }: Props) => {
       <h2 className="text-3xl font-bold">Your Team:</h2>
       <div className="grid gap-4 grid-cols-1 md:grid-cols-4 xl:grid-cols-6">
         {
-          Array.isArray(pokemons) && pokemons.map((pokemon: PokemonGraph) => <Pokemon key={pokemon.id} name={pokemon.name} id={pokemon.id} picture={pokemon.picture} onClick={removeTeam} />)
+          Array.isArray(data) && data.map((pokemon: PokemonGraph) => <Pokemon key={pokemon.id} name={pokemon.name} id={pokemon.id} picture={pokemon.picture} onClick={removeTeam} />)
         }
       </div>
     </section>

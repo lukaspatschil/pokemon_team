@@ -35,6 +35,14 @@ function App() {
     }
   }
 
+  const removePokemon = (id: number) => {
+    if (pokemons) {
+      setPokemons(pre => {
+        if (pre) return pre?.filter(pokemon => pokemon.id !== id)
+      })
+    }
+  }
+
   return (
     <Router>
       <div>
@@ -42,7 +50,7 @@ function App() {
 
         <Switch>
           <Route path="/pokemons">
-            <Team loading={loading} error={error} data={pokemons} />
+            <Team loading={loading} error={error} data={pokemons} deletePokemon={removePokemon} />
             <Selection localPokemon={addPokemon} />
           </Route>
           <Route path="/">
