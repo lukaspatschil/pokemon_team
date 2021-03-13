@@ -33,7 +33,7 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-prisma/*.db
+prisma/*.db*
 coverage/
 
 prisma/migrations/dev/
