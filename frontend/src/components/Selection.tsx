@@ -43,7 +43,10 @@ const Selection = ({ localPokemon }: Props) => {
 
   const addTeam = (name: string, id: number) => {
     PokeAPI.Pokemon.fetch(id)
-      .then(pokemon => addPokemon({ variables: { name: pokemon.name, picture: pokemon.sprites.front_default } }));
+      .then(pokemon =>
+        addPokemon({ variables: { name: pokemon.name, picture: pokemon.sprites.front_default } })
+          .then(pokemon => { if (pokemon.data?.addPokemon) localPokemon(pokemon.data?.addPokemon) })
+      );
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
