@@ -1,10 +1,9 @@
+import PokeAPI, { IPokemon } from "pokeapi-typescript";
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
 import Pokemon from './Pokemon';
-import PokemonData from '../interfaces/pokemonData.interface';
 import { PokemonGraph } from '../interfaces/pokemon.interface';
-import { useFetch } from '../hooks/useFetch';
 
 interface Props {
   localPokemon: (pokemon: PokemonGraph) => void;
@@ -24,31 +23,32 @@ const ADD_POKEMON = gql`
 `;
 
 const Selection = ({ localPokemon }: Props) => {
-  const pokemons = useFetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+  const [pokemons, setPokemons] = useState<IPokemon[]>([]);
   const [addPokemon] = useMutation<{ addPokemon: PokemonGraph }>(ADD_POKEMON);
 
   const [filtered, setFiltered] = useState(pokemons);
   const [input, setInput] = useState('');
 
+  useEffect(() => {
+    const temp = [];
+    for (let i = 1; i <= 151; i++) {
+      temp.push(PokeAPI.Pokemon.fetch(i));
+    }
+    Promise.all(temp)
+      .then(pokemons => { setPokemons(pokemons) })
+      .catch(error => console.error(error));
+  }, []);
+
   useEffect(() => setFiltered(pokemons), [pokemons]);
 
   const addTeam = (name: string, id: number) => {
-    fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-      .then(data => data.json())
-      .then((pokemon: PokemonData) => {
-        addPokemon({
-          variables: {
-            name: pokemon.name,
-            picture: pokemon.sprites.front_default,
-          }
-        })
-          .then(res => res.data?.addPokemon ? localPokemon(res.data?.addPokemon) : '');
-      });
+    PokeAPI.Pokemon.fetch(id)
+      .then(pokemon => addPokemon({ variables: { name: pokemon.name, picture: pokemon.sprites.front_default } }));
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
-    setFiltered({ data: pokemons.data.filter(el => el.name.includes(e.target.value)), loading: false });
+    setFiltered(pokemons.filter(el => el.name.includes(e.target.value)));
   }
 
   return (
@@ -58,7 +58,7 @@ const Selection = ({ localPokemon }: Props) => {
       <hr className="mb-4" />
       <div className="grid gap-4 grid-cols-1 md:grid-cols-4 xl:grid-cols-6">
         {
-          !pokemons.loading && filtered?.data?.map((pokemon, id) => <Pokemon key={id} name={pokemon.name} id={pokemon.id} onClick={addTeam} picture={pokemon.sprites.front_default} />)
+          Array.isArray(filtered) && filtered?.map((pokemon, id) => <Pokemon key={id} name={pokemon.name} id={pokemon.id} onClick={addTeam} picture={pokemon.sprites.front_default} />)
         }
       </div>
     </section>
